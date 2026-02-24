@@ -91,13 +91,12 @@ export class Virtualizer {
     );
 
     let renderRange = {
-      startIndex: (visibleRange.startIndex - this.#overscan) | 0,
-      endIndex: (visibleRange.endIndex + this.#overscan) | 0,
+      startIndex: Math.max(0, visibleRange.startIndex - this.#overscan),
+      endIndex: Math.min(
+        this.#count - 1,
+        visibleRange.endIndex + this.#overscan
+      ),
     };
-
-    if (renderRange.startIndex < 0) renderRange.startIndex = 0;
-    if (renderRange.endIndex > this.#count - 1)
-      renderRange.endIndex = this.#count - 1;
 
     for (const plugin of this.#plugins) {
       if (plugin.onRangeCalculated) {
