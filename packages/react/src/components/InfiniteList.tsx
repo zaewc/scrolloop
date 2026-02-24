@@ -240,9 +240,7 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
       className={className}
       style={style}
       onRangeChange={handleRangeChange}
-      renderItem={(index, itemStyle) =>
-        renderItem(mergedAllItems[index], index, itemStyle)
-      }
+      renderItem={virtualListRenderItem}
     />
   );
 }
