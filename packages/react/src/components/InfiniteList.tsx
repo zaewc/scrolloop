@@ -162,6 +162,13 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
     return () => containerRef.current?.removeEventListener("scroll", scroll);
   }, [isServerSide]);
 
+  const virtualListRenderItem = useCallback(
+    (index: number, itemStyle: CSSProperties) => {
+      return renderItem(mergedAllItems[index], index, itemStyle);
+    },
+    [mergedAllItems, renderItem]
+  );
+
   const commonContainerStyle: CSSProperties = {
     height,
     display: "flex",
@@ -223,13 +230,6 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
       />
     );
   }
-
-  const virtualListRenderItem = useCallback(
-    (index: number, itemStyle: CSSProperties) => {
-      return renderItem(mergedAllItems[index], index, itemStyle);
-    },
-    [mergedAllItems, renderItem]
-  );
 
   return (
     <VirtualList
