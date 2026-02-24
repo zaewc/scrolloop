@@ -9,3 +9,4 @@ dist/
 ./packages/react/test-results
 coverage/
 cache/
+.vscode
