@@ -47,7 +47,7 @@ const digitAnimations = ref<DigitAnimation[][]>([]);
 const prevValue = ref(props.value);
 const lastChangeTime = ref(Date.now());
 const animationId = ref(0);
-const cleanupTimer = ref<any>(null);
+const cleanupTimer = ref<ReturnType<typeof setTimeout> | null>(null);
 
 const audio = ref<HTMLAudioElement | null>(null);
 const audioMidpoint = ref(0);
