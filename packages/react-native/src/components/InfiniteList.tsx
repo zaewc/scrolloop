@@ -57,11 +57,7 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
   ]);
 
   const handleRangeChange = (range: Range) => {
-    const prefetchStart = Math.max(
-      0,
-      Math.floor(range.startIndex / pageSize) -
-        Math.floor(range.endIndex / pageSize)
-    );
+    const prefetchStart = Math.floor(range.startIndex / pageSize);
     const prefetchEnd =
       Math.floor(range.endIndex / pageSize) +
       prefetchThreshold +

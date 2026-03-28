@@ -130,10 +130,7 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
         scrollTopRef.current = containerRef.current?.scrollTop ?? 0;
         return;
       }
-      const ps = Math.max(
-        0,
-        ((range.startIndex / pageSize) | 0) - ((range.endIndex / pageSize) | 0)
-      );
+      const ps = (range.startIndex / pageSize) | 0;
       const pe =
         ((range.endIndex / pageSize) | 0) +
         prefetchThreshold +
