@@ -365,4 +365,90 @@ describe("useInfinitePages", () => {
 
     expect(result.current.error?.message).toBe("String error");
   });
+
+  it("does not update state when reset is called before fetch resolves", async () => {
+    let resolvePromise!: (value: PageResponse<{ id: number }>) => void;
+    mockFetchPage.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolvePromise = resolve;
+        })
+    );
+
+    const { result } = renderHook(() =>
+      useInfinitePages({
+        fetchPage: mockFetchPage,
+        pageSize: 20,
+        initialPage: 0,
+      })
+    );
+
+    act(() => {
+      result.current.loadPage(0);
+    });
+
+    await waitFor(() => {
+      expect(result.current.loadingPages.has(0)).toBe(true);
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    await waitFor(() => {
+      expect(result.current.loadingPages.size).toBe(0);
+    });
+
+    act(() => {
+      resolvePromise({ items: [{ id: 1 }], total: 100, hasMore: true });
+    });
+
+    await waitFor(() => {
+      expect(result.current.pages.size).toBe(0);
+      expect(result.current.total).toBe(0);
+    });
+  });
+
+  it("does not set error when reset is called before fetch rejects", async () => {
+    let rejectPromise!: (reason?: unknown) => void;
+    mockFetchPage.mockImplementation(
+      () =>
+        new Promise((_, reject) => {
+          rejectPromise = reject;
+        })
+    );
+
+    const { result } = renderHook(() =>
+      useInfinitePages({
+        fetchPage: mockFetchPage,
+        pageSize: 20,
+        initialPage: 0,
+      })
+    );
+
+    act(() => {
+      result.current.loadPage(0);
+    });
+
+    await waitFor(() => {
+      expect(result.current.loadingPages.has(0)).toBe(true);
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    await waitFor(() => {
+      expect(result.current.loadingPages.size).toBe(0);
+    });
+
+    act(() => {
+      rejectPromise(new Error("network error"));
+    });
+
+    await waitFor(() => {
+      expect(result.current.error).toBeNull();
+      expect(result.current.pages.size).toBe(0);
+    });
+  });
 });
