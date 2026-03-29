@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { InfiniteSource } from "../InfiniteSource";
 import type {
   InfiniteSourceState,
@@ -14,41 +14,39 @@ export function useInfinitePages<T>(
 } {
   const { fetchPage, pageSize, initialPage, onPageLoad, onError } = options;
 
-  const managerRef = useRef<InfiniteSource<T>>(null);
-  if (!managerRef.current) {
-    (managerRef as React.MutableRefObject<InfiniteSource<T>>).current =
+  const [manager] = useState<InfiniteSource<T>>(
+    () =>
       new InfiniteSource({
         fetchPage,
         pageSize,
         initialPage,
         onPageLoad,
         onError,
-      });
-  }
+      })
+  );
 
   const [state, setState] = useState<InfiniteSourceState<T>>(() =>
-    managerRef.current!.getState()
+    manager.getState()
   );
 
   useEffect(() => {
-    const manager = managerRef.current!;
     const unsubscribe = manager.subscribe(setState);
     return () => {
       unsubscribe();
       manager.destroy();
     };
-  }, []);
+  }, [manager]);
 
   useEffect(() => {
-    managerRef.current!.updateCallbacks({ fetchPage, onPageLoad, onError });
-  }, [fetchPage, onPageLoad, onError]);
+    manager.updateCallbacks({ fetchPage, onPageLoad, onError });
+  }, [manager, fetchPage, onPageLoad, onError]);
 
   const loadPage = useCallback(
-    (page: number) => managerRef.current!.loadPage(page),
-    []
+    (page: number) => manager.loadPage(page),
+    [manager]
   );
-  const retry = useCallback(() => managerRef.current!.retry(), []);
-  const reset = useCallback(() => managerRef.current!.reset(), []);
+  const retry = useCallback(() => manager.retry(), [manager]);
+  const reset = useCallback(() => manager.reset(), [manager]);
 
   return { ...state, loadPage, retry, reset };
 }
