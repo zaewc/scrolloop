@@ -1,5 +1,4 @@
 <script lang="ts" generics="T">
-  import { onMount, onDestroy } from "svelte";
   import { calculateVirtualRange } from "@scrolloop/core";
   import type { Snippet } from "svelte";
 
@@ -52,18 +51,17 @@
     onRangeChange?.({ startIndex: range.renderStart, endIndex: range.renderEnd });
   });
 
-  function handleScroll() {
-    if (!containerEl) return;
-    prevScrollTop = scrollTop;
-    scrollTop = containerEl.scrollTop;
-  }
+  $effect(() => {
+    const el = containerEl;
+    if (!el) return;
 
-  onMount(() => {
-    containerEl?.addEventListener("scroll", handleScroll, { passive: true });
-  });
+    function handleScroll() {
+      prevScrollTop = scrollTop;
+      scrollTop = el.scrollTop;
+    }
 
-  onDestroy(() => {
-    containerEl?.removeEventListener("scroll", handleScroll);
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    return () => el.removeEventListener("scroll", handleScroll);
   });
 </script>
 
