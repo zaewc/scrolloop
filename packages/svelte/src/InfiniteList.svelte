@@ -54,7 +54,8 @@
   function handleRangeChange(range: { startIndex: number; endIndex: number }) {
     const ps = (range.startIndex / pageSize) | 0;
     const pe = ((range.endIndex / pageSize) | 0) + prefetchThreshold;
-    for (let p = ps; p <= pe; p++) {
+    const missingPages = findMissingPages(ps, pe, pages, loadingPages);
+    for (const p of missingPages) {
       source.loadPage(p);
     }
   }

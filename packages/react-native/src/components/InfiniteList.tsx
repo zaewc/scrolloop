@@ -63,9 +63,14 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
       prefetchThreshold +
       Math.ceil(overscan / pageSize);
 
-    findMissingPages(prefetchStart, prefetchEnd, pages, loadingPages);
+    const missingPages = findMissingPages(
+      prefetchStart,
+      prefetchEnd,
+      pages,
+      loadingPages
+    );
 
-    for (let page = prefetchStart; page <= prefetchEnd; page++) {
+    for (const page of missingPages) {
       loadPage(page);
     }
   };

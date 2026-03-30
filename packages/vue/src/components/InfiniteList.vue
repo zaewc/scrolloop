@@ -54,8 +54,8 @@ function handleRangeChange(range: Range) {
     ((range.endIndex / props.pageSize) | 0) +
     props.prefetchThreshold +
     Math.ceil(overscan.value / props.pageSize);
-  findMissingPages(ps, pe, pages.value, loadingPages.value);
-  for (let p = ps; p <= pe; p++) loadPage(p);
+  const missingPages = findMissingPages(ps, pe, pages.value, loadingPages.value);
+  for (const p of missingPages) loadPage(p);
 }
 </script>
 
