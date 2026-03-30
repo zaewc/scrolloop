@@ -130,16 +130,13 @@ function InfiniteListInner<T>(props: InfiniteListProps<T>) {
         scrollTopRef.current = containerRef.current?.scrollTop ?? 0;
         return;
       }
-      const ps = Math.max(
-        0,
-        ((range.startIndex / pageSize) | 0) - ((range.endIndex / pageSize) | 0)
-      );
+      const ps = (range.startIndex / pageSize) | 0;
       const pe =
         ((range.endIndex / pageSize) | 0) +
         prefetchThreshold +
         Math.ceil(overscan / pageSize);
-      findMissingPages(ps, pe, mergedPages, loadingPages);
-      for (let p = ps; p <= pe; p++) loadPage(p);
+      const missingPages = findMissingPages(ps, pe, mergedPages, loadingPages);
+      for (const p of missingPages) loadPage(p);
     },
     [
       isServerSide,

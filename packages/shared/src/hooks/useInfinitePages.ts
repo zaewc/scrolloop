@@ -1,112 +1,52 @@
-import { useState, useCallback, useRef, useMemo } from "react";
-import type { PageResponse } from "../types";
-import { canLoadPage } from "../utils/canLoadPage";
+import { useState, useCallback, useEffect } from "react";
+import { InfiniteSource } from "../InfiniteSource";
+import type {
+  InfiniteSourceState,
+  InfiniteSourceOptions,
+} from "../InfiniteSource";
 
-interface UseInfinitePagesOptions<T> {
-  fetchPage: (page: number, size: number) => Promise<PageResponse<T>>;
-  pageSize: number;
-  initialPage: number;
-  onPageLoad?: (page: number, items: T[]) => void;
-  onError?: (error: Error) => void;
-}
+export function useInfinitePages<T>(
+  options: InfiniteSourceOptions<T>
+): InfiniteSourceState<T> & {
+  loadPage: (page: number) => Promise<void>;
+  retry: () => void;
+  reset: () => void;
+} {
+  const { fetchPage, pageSize, initialPage, onPageLoad, onError } = options;
 
-export function useInfinitePages<T>({
-  fetchPage,
-  pageSize,
-  initialPage,
-  onPageLoad,
-  onError,
-}: UseInfinitePagesOptions<T>) {
-  const [pages, setPages] = useState<Map<number, T[]>>(new Map());
-  const [loadingPages, setLoadingPages] = useState<Set<number>>(new Set());
-  const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const abortControllersRef = useRef<Map<number, AbortController>>(new Map());
-
-  const allItems = useMemo(() => {
-    const items: (T | undefined)[] = new Array(total);
-    pages.forEach((pageItems, pageNum) => {
-      const startIndex = pageNum * pageSize;
-      pageItems.forEach((item, i) => {
-        items[startIndex + i] = item;
-      });
-    });
-    return items;
-  }, [pages, total, pageSize]);
-
-  const loadPage = useCallback(
-    async (page: number) => {
-      if (!canLoadPage(page, pages, loadingPages, total, pageSize, hasMore))
-        return;
-
-      setLoadingPages((prev) => new Set(prev).add(page));
-      setError(null);
-
-      const controller = new AbortController();
-      abortControllersRef.current.set(page, controller);
-
-      try {
-        const response = await fetchPage(page, pageSize);
-
-        if (controller.signal.aborted) return;
-
-        setPages((prev) => new Map(prev).set(page, response.items));
-        setTotal(response.total);
-        setHasMore(response.hasMore);
-        onPageLoad?.(page, response.items);
-      } catch (err) {
-        if (controller.signal.aborted) return;
-
-        const error = err instanceof Error ? err : new Error(String(err));
-        setError(error);
-        onError?.(error);
-      } finally {
-        setLoadingPages((prev) => {
-          const next = new Set(prev);
-          next.delete(page);
-          return next;
-        });
-        abortControllersRef.current.delete(page);
-      }
-    },
-    [
-      pages,
-      loadingPages,
-      hasMore,
-      total,
-      pageSize,
-      fetchPage,
-      onPageLoad,
-      onError,
-    ]
+  const [manager] = useState<InfiniteSource<T>>(
+    () =>
+      new InfiniteSource({
+        fetchPage,
+        pageSize,
+        initialPage,
+        onPageLoad,
+        onError,
+      })
   );
 
-  const retry = useCallback(() => {
-    setError(null);
-    loadPage(initialPage);
-  }, [loadPage, initialPage]);
+  const [state, setState] = useState<InfiniteSourceState<T>>(() =>
+    manager.getState()
+  );
 
-  const reset = useCallback(() => {
-    abortControllersRef.current.forEach((controller) => controller.abort());
-    abortControllersRef.current.clear();
+  useEffect(() => {
+    const unsubscribe = manager.subscribe(setState);
+    return () => {
+      unsubscribe();
+      manager.destroy();
+    };
+  }, [manager]);
 
-    setPages(new Map());
-    setLoadingPages(new Set());
-    setTotal(0);
-    setHasMore(true);
-    setError(null);
-  }, []);
+  useEffect(() => {
+    manager.updateCallbacks({ fetchPage, onPageLoad, onError });
+  }, [manager, fetchPage, onPageLoad, onError]);
 
-  return {
-    allItems,
-    pages,
-    loadingPages,
-    total,
-    hasMore,
-    error,
-    loadPage,
-    retry,
-    reset,
-  };
+  const loadPage = useCallback(
+    (page: number) => manager.loadPage(page),
+    [manager]
+  );
+  const retry = useCallback(() => manager.retry(), [manager]);
+  const reset = useCallback(() => manager.reset(), [manager]);
+
+  return { ...state, loadPage, retry, reset };
 }

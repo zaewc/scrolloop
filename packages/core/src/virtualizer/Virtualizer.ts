@@ -11,16 +11,16 @@ export class Virtualizer {
   #count: number;
   readonly #overscan: number;
   #plugins: Plugin[];
-  readonly #onChange?: (state: VirtualizerState) => void;
+  readonly #onChange: ((state: VirtualizerState) => void) | undefined;
 
   readonly #layoutStrategy: LayoutStrategy;
   readonly #scrollSource: ScrollSource;
 
   #state: VirtualizerState;
-  readonly #unsubscribe?: () => void;
+  readonly #unsubscribe: (() => void) | undefined;
 
-  #prevRenderRange?: { startIndex: number; endIndex: number };
-  #prevVirtualItems?: VirtualItem[];
+  #prevRenderRange: { startIndex: number; endIndex: number } | undefined;
+  #prevVirtualItems: VirtualItem[] | undefined;
 
   constructor(
     layoutStrategy: LayoutStrategy,
