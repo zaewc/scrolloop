@@ -25,16 +25,16 @@ export function InfiniteList<T>({
     [userOverscan, pageSize]
   );
 
-  const { allItems, loadingPages, hasMore, error, loadPage, retry } =
+  const { pages, total, loadingPages, hasMore, error, loadPage, retry } =
     useInfinitePages({ fetchPage, pageSize, initialPage, onPageLoad, onError });
 
   useEffect(() => {
-    if (!allItems.length && !error) {
+    if (total === 0 && !error) {
       const needed = Math.ceil(height / itemSize) + overscan * 2;
       const pagesToLoad = Math.ceil(needed / pageSize);
       for (let p = 0; p < pagesToLoad; p++) loadPage(p);
     }
-  }, [allItems.length, error, height, itemSize, pageSize, overscan, loadPage]);
+  }, [total, error, height, itemSize, pageSize, overscan, loadPage]);
 
   const handleRangeChange = useCallback(
     (range: { startIndex: number; endIndex: number }) => {
@@ -47,8 +47,12 @@ export function InfiniteList<T>({
 
   const virtualRenderItem = useCallback(
     (index: number, itemStyle: CSSProperties) =>
-      renderItem(allItems[index], index, itemStyle),
-    [allItems, renderItem]
+      renderItem(
+        pages.get(Math.floor(index / pageSize))?.[index % pageSize],
+        index,
+        itemStyle
+      ),
+    [pages, pageSize, renderItem]
   );
 
   const centerStyle: CSSProperties = {
@@ -58,7 +62,7 @@ export function InfiniteList<T>({
     justifyContent: "center",
   };
 
-  if (error && !allItems.length) {
+  if (error && total === 0) {
     if (renderError)
       return <div style={{ height }}>{renderError(error, retry)}</div>;
     return (
@@ -77,7 +81,7 @@ export function InfiniteList<T>({
     );
   }
 
-  if (!allItems.length && loadingPages.size > 0) {
+  if (total === 0 && loadingPages.size > 0) {
     if (renderLoading) return <div style={{ height }}>{renderLoading()}</div>;
     return (
       <div style={centerStyle}>
@@ -86,7 +90,7 @@ export function InfiniteList<T>({
     );
   }
 
-  if (!allItems.length && !hasMore) {
+  if (total === 0 && !hasMore) {
     if (renderEmpty) return <div style={{ height }}>{renderEmpty()}</div>;
     return (
       <div style={centerStyle}>
@@ -97,7 +101,7 @@ export function InfiniteList<T>({
 
   return (
     <VirtualList
-      count={allItems.length}
+      count={total}
       itemSize={itemSize}
       height={height}
       overscan={overscan}
