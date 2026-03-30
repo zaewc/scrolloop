@@ -203,11 +203,7 @@ importers:
         specifier: ^2.0.0
         version: 2.1.9(@types/node@24.10.0)(jsdom@24.1.3)(terser@5.44.0)
 
-<<<<<<< HEAD
-  packages/vue:
-=======
   packages/svelte:
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
     dependencies:
       '@scrolloop/core':
         specifier: workspace:*
@@ -216,18 +212,12 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
-<<<<<<< HEAD
-      '@vitejs/plugin-vue':
-        specifier: ^5.0.0
-        version: 5.2.4(vite@5.4.21(@types/node@24.10.0)(terser@5.44.0))(vue@3.5.26(typescript@5.9.3))
-=======
       '@sveltejs/vite-plugin-svelte':
         specifier: ^4.0.0
         version: 4.0.4(svelte@5.55.1)(vite@5.4.21(@types/node@24.10.0)(terser@5.44.0))
       svelte:
         specifier: ^5.0.0
         version: 5.55.1
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -237,15 +227,34 @@ importers:
       vite-plugin-dts:
         specifier: ^4.0.0
         version: 4.5.4(@types/node@24.10.0)(rollup@4.52.5)(typescript@5.9.3)(vite@5.4.21(@types/node@24.10.0)(terser@5.44.0))
-<<<<<<< HEAD
+
+  packages/vue:
+    dependencies:
+      '@scrolloop/core':
+        specifier: workspace:*
+        version: link:../core
+      '@scrolloop/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^5.0.0
+        version: 5.2.4(vite@5.4.21(@types/node@24.10.0)(terser@5.44.0))(vue@3.5.26(typescript@5.9.3))
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.0.0
+        version: 5.4.21(@types/node@24.10.0)(terser@5.44.0)
+      vite-plugin-dts:
+        specifier: ^4.0.0
+        version: 4.5.4(@types/node@24.10.0)(rollup@4.52.5)(typescript@5.9.3)(vite@5.4.21(@types/node@24.10.0)(terser@5.44.0))
       vue:
         specifier: ^3.3.0
         version: 3.5.26(typescript@5.9.3)
       vue-tsc:
         specifier: ^2.0.0
         version: 2.2.12(typescript@5.9.3)
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
 
 packages:
 
@@ -2057,7 +2066,6 @@ packages:
   '@vitest/utils@2.1.9':
     resolution: {integrity: sha512-v0psaMSkNJ3A2NMrUEHFRzJtDPFn+/VWZ5WxImB21T9fjucJRmS7xCS3ppEnARb9y11OAzaD+P2Ps+b+BGX5iQ==}
 
-<<<<<<< HEAD
   '@volar/language-core@2.4.15':
     resolution: {integrity: sha512-3VHw+QZU0ZG9IuQmzT68IyN4hZNd9GchGPhbD9+pa8CVv7rnoOZwo7T8weIbrRmihqy3ATpdfXFnqRrfPVK6CA==}
 
@@ -2073,14 +2081,6 @@ packages:
   '@volar/typescript@2.4.15':
     resolution: {integrity: sha512-2aZ8i0cqPGjXb4BhkMsPYDkkuc2ZQ6yOpqwAuNwUoncELqoy5fRgOQtLR9gB0g902iS0NAkvpIzs27geVyVdPg==}
 
-=======
-  '@volar/language-core@2.4.28':
-    resolution: {integrity: sha512-w4qhIJ8ZSitgLAkVay6AbcnC7gP3glYM3fYwKV3srj8m494E3xtrCv6E+bWviiK/8hs6e6t1ij1s2Endql7vzQ==}
-
-  '@volar/source-map@2.4.28':
-    resolution: {integrity: sha512-yX2BDBqJkRXfKw8my8VarTyjv48QwxdJtvRgUpNE5erCsgEUdI2DsLbpa+rOQVAJYshY99szEcRDmyHbF10ggQ==}
-
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   '@volar/typescript@2.4.28':
     resolution: {integrity: sha512-Ja6yvWrbis2QtN4ClAKreeUZPVYMARDYZl9LMEv1iQ1QdepB6wn0jTRxA9MftYmYa4DQ4k/DaSZpFPUfxl8giw==}
 
@@ -2116,7 +2116,6 @@ packages:
       typescript:
         optional: true
 
-<<<<<<< HEAD
   '@vue/language-core@2.2.12':
     resolution: {integrity: sha512-IsGljWbKGU1MZpBPN+BvPAdr55YPkj2nB/TBNGNC32Vy2qLG25DYu/NBN2vNtZqdRbTRjaoYrahLrToim2NanA==}
     peerDependencies:
@@ -2125,8 +2124,6 @@ packages:
       typescript:
         optional: true
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   '@vue/reactivity@3.5.26':
     resolution: {integrity: sha512-9EnYB1/DIiUYYnzlnUBgwU32NNvLp/nhxLXeWRhHUEeWNTn1ECxX8aGO7RTXeX6PPcxe3LLuNBFoJbV4QZ+CFQ==}
 
@@ -2237,12 +2234,9 @@ packages:
   alien-signals@0.4.14:
     resolution: {integrity: sha512-itUAVzhczTmP2U5yX67xVpsbbOiquusbWVyA9N+sy6+r6YVbFkahXvNCeEPWEOMhwDYwbVbGHFkVL03N9I5g+Q==}
 
-<<<<<<< HEAD
   alien-signals@1.0.13:
     resolution: {integrity: sha512-OGj9yyTnJEttvzhTUWuscOvtqxq5vrhF7vL9oS0xJ2mK0ItPYP1/y+vCFebfxoEyAz0++1AIwJ5CMr+Fk3nDmg==}
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   anser@1.4.10:
     resolution: {integrity: sha512-hCv9AqTQ8ycjpSd3upOJd7vFwW1JaoYQ7tpham03GJ1ca8/65rqn0RpaWpItOAd6ylW9wAw6luXYPJIyPFVOww==}
 
@@ -3569,13 +3563,10 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
 
-<<<<<<< HEAD
-=======
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
@@ -3607,12 +3598,9 @@ packages:
     resolution: {integrity: sha512-arhlxbFRmoQHl33a0Zkle/YWlmNwoyt6QNZEIJcqNbdrsix5Lvc4HyyI3EnwxTYlZYc32EbYrQ8SzEZ7dqgg9A==}
     engines: {node: '>=14'}
 
-<<<<<<< HEAD
-=======
   locate-character@3.0.0:
     resolution: {integrity: sha512-SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==}
 
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   locate-path@3.0.0:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
     engines: {node: '>=6'}
@@ -5098,15 +5086,12 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-<<<<<<< HEAD
   vue-tsc@2.2.12:
     resolution: {integrity: sha512-P7OP77b2h/Pmk+lZdJ0YWs+5tJ6J2+uOQPo7tlBnY44QqQSPYvS0qVT4wqDJgwrZaLe47etJLLQRFia71GYITw==}
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   vue@3.5.26:
     resolution: {integrity: sha512-SJ/NTccVyAoNUJmkM9KUqPcYlY+u8OVL1X5EW9RIs3ch5H2uERxyyIUI4MRxVCSOiEcupX9xNGde1tL9ZKpimA==}
     peerDependencies:
@@ -7309,18 +7294,14 @@ snapshots:
       loupe: 3.2.1
       tinyrainbow: 1.2.0
 
-<<<<<<< HEAD
   '@volar/language-core@2.4.15':
     dependencies:
       '@volar/source-map': 2.4.15
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   '@volar/language-core@2.4.28':
     dependencies:
       '@volar/source-map': 2.4.28
 
-<<<<<<< HEAD
   '@volar/source-map@2.4.15': {}
 
   '@volar/source-map@2.4.28': {}
@@ -7331,10 +7312,6 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
 
-=======
-  '@volar/source-map@2.4.28': {}
-
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   '@volar/typescript@2.4.28':
     dependencies:
       '@volar/language-core': 2.4.28
@@ -7407,7 +7384,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-<<<<<<< HEAD
   '@vue/language-core@2.2.12(typescript@5.9.3)':
     dependencies:
       '@volar/language-core': 2.4.15
@@ -7421,8 +7397,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   '@vue/reactivity@3.5.26':
     dependencies:
       '@vue/shared': 3.5.26
@@ -7522,11 +7496,8 @@ snapshots:
 
   alien-signals@0.4.14: {}
 
-<<<<<<< HEAD
   alien-signals@1.0.13: {}
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   anser@1.4.10: {}
 
   ansi-escapes@7.2.0:
@@ -9027,11 +8998,8 @@ snapshots:
 
   kleur@3.0.3: {}
 
-<<<<<<< HEAD
-=======
   kleur@4.1.5: {}
 
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   kolorist@1.8.0: {}
 
   leven@3.1.0: {}
@@ -9067,11 +9035,8 @@ snapshots:
       pkg-types: 2.3.0
       quansync: 0.2.11
 
-<<<<<<< HEAD
-=======
   locate-character@3.0.0: {}
 
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   locate-path@3.0.0:
     dependencies:
       p-locate: 3.0.0
@@ -10818,15 +10783,12 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-<<<<<<< HEAD
   vue-tsc@2.2.12(typescript@5.9.3):
     dependencies:
       '@volar/typescript': 2.4.15
       '@vue/language-core': 2.2.12(typescript@5.9.3)
       typescript: 5.9.3
 
-=======
->>>>>>> 48883a4e74cff02949d1982419cdfea94b5f5f84
   vue@3.5.26(typescript@5.9.3):
     dependencies:
       '@vue/compiler-dom': 3.5.26
