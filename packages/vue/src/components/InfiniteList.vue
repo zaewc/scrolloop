@@ -63,19 +63,10 @@ function handleRangeChange(range: Range) {
   <div :style="{ height: `${height}px` }">
     <template v-if="error && total === 0">
       <slot name="error" :error="error" :retry="retry">
-        <div
-          style="
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-        >
-          <div style="text-align: center">
-            <p>Error: {{ error.message }}</p>
-            <button @click="retry" style="margin-top: 8px; cursor: pointer">
-              Retry
-            </button>
+        <div class="scrolloop-state-container">
+          <div class="scrolloop-error-content">
+            <p class="scrolloop-error-message">Error: {{ error.message }}</p>
+            <button class="scrolloop-retry-button" @click="retry">Retry</button>
           </div>
         </div>
       </slot>
@@ -83,30 +74,16 @@ function handleRangeChange(range: Range) {
 
     <template v-else-if="total === 0 && loadingPages.size">
       <slot name="loading">
-        <div
-          style="
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-        >
-          <p>Loading...</p>
+        <div class="scrolloop-state-container">
+          <p class="scrolloop-state-text">Loading...</p>
         </div>
       </slot>
     </template>
 
     <template v-else-if="total === 0 && !hasMore">
       <slot name="empty">
-        <div
-          style="
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-        >
-          <p>No data.</p>
+        <div class="scrolloop-state-container">
+          <p class="scrolloop-state-text">No data.</p>
         </div>
       </slot>
     </template>
@@ -121,8 +98,38 @@ function handleRangeChange(range: Range) {
       @range-change="handleRangeChange"
     >
       <template #default="{ index, style }">
-        <slot :item="pages.get(Math.floor(index / props.pageSize))?.[index % props.pageSize]" :index="index" :style="style" />
+        <slot
+          :item="pages.get(Math.floor(index / props.pageSize))?.[index % props.pageSize]"
+          :index="index"
+          :style="style"
+        />
       </template>
     </VirtualList>
   </div>
 </template>
+
+<style>
+.scrolloop-state-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrolloop-error-content {
+  text-align: center;
+}
+
+.scrolloop-error-message {
+  margin: 0 0 8px;
+}
+
+.scrolloop-retry-button {
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.scrolloop-state-text {
+  margin: 0;
+}
+</style>
