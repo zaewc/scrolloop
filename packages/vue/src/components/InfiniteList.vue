@@ -33,7 +33,7 @@ const overscan = computed(
   () => props.overscan ?? Math.max(20, props.pageSize * 2)
 );
 
-const { pages, loadingPages, allItems, hasMore, error, loadPage, retry } =
+const { pages, loadingPages, total, hasMore, error, loadPage, retry } =
   useInfinitePages<T>({
     fetchPage: props.fetchPage,
     pageSize: props.pageSize,
@@ -61,7 +61,7 @@ function handleRangeChange(range: Range) {
 
 <template>
   <div :style="{ height: `${height}px` }">
-    <template v-if="error && !allItems.length">
+    <template v-if="error && total === 0">
       <slot name="error" :error="error" :retry="retry">
         <div
           style="
@@ -81,7 +81,7 @@ function handleRangeChange(range: Range) {
       </slot>
     </template>
 
-    <template v-else-if="!allItems.length && loadingPages.size">
+    <template v-else-if="total === 0 && loadingPages.size">
       <slot name="loading">
         <div
           style="
@@ -96,7 +96,7 @@ function handleRangeChange(range: Range) {
       </slot>
     </template>
 
-    <template v-else-if="!allItems.length && !hasMore">
+    <template v-else-if="total === 0 && !hasMore">
       <slot name="empty">
         <div
           style="
@@ -113,7 +113,7 @@ function handleRangeChange(range: Range) {
 
     <VirtualList
       v-else
-      :count="allItems.length"
+      :count="total"
       :item-size="itemSize"
       :height="height"
       :overscan="overscan"
@@ -121,7 +121,7 @@ function handleRangeChange(range: Range) {
       @range-change="handleRangeChange"
     >
       <template #default="{ index, style }">
-        <slot :item="allItems[index]" :index="index" :style="style" />
+        <slot :item="pages.get(Math.floor(index / props.pageSize))?.[index % props.pageSize]" :index="index" :style="style" />
       </template>
     </VirtualList>
   </div>
