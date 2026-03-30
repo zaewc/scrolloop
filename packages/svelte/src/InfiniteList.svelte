@@ -62,13 +62,11 @@
   {#if errorSnippet}
     {@render errorSnippet(errorState, source.retry)}
   {:else}
-    <div style:height="{height}px" style:display="flex" style:align-items="center" style:justify-content="center">
-      <div style:text-align="center">
-        <p>Error.</p>
-        <p style:color="#666" style:font-size="0.9em">{errorState.message}</p>
-        <button onclick={source.retry} style:margin-top="8px" style:padding="4px 12px" style:cursor="pointer">
-          Retry
-        </button>
+    <div class="scrolloop-state-container" style:height="{height}px">
+      <div class="scrolloop-error-content">
+        <p class="scrolloop-error-message">Error.</p>
+        <p class="scrolloop-error-detail">{errorState.message}</p>
+        <button class="scrolloop-retry-button" onclick={source.retry}>Retry</button>
       </div>
     </div>
   {/if}
@@ -76,16 +74,16 @@
   {#if loadingSnippet}
     <div style:height="{height}px">{@render loadingSnippet()}</div>
   {:else}
-    <div style:height="{height}px" style:display="flex" style:align-items="center" style:justify-content="center">
-      <p>Loading...</p>
+    <div class="scrolloop-state-container" style:height="{height}px">
+      <p class="scrolloop-state-text">Loading...</p>
     </div>
   {/if}
 {:else if total === 0 && !hasMore}
   {#if emptySnippet}
     <div style:height="{height}px">{@render emptySnippet()}</div>
   {:else}
-    <div style:height="{height}px" style:display="flex" style:align-items="center" style:justify-content="center">
-      <p>No data.</p>
+    <div class="scrolloop-state-container" style:height="{height}px">
+      <p class="scrolloop-state-text">No data.</p>
     </div>
   {/if}
 {:else}
@@ -101,3 +99,34 @@
     {/snippet}
   </VirtualList>
 {/if}
+
+<style>
+  :global(.scrolloop-state-container) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.scrolloop-error-content) {
+    text-align: center;
+  }
+
+  :global(.scrolloop-error-message) {
+    margin: 0 0 4px;
+  }
+
+  :global(.scrolloop-error-detail) {
+    margin: 0 0 8px;
+    color: #666;
+    font-size: 0.9em;
+  }
+
+  :global(.scrolloop-retry-button) {
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+
+  :global(.scrolloop-state-text) {
+    margin: 0;
+  }
+</style>
