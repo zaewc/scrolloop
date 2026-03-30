@@ -9,6 +9,7 @@
     fetchPage: InfiniteSourceOptions<T>["fetchPage"];
     pageSize?: number;
     initialPage?: number;
+    prefetchThreshold?: number;
     itemSize: number;
     height?: number;
     overscan?: number;
@@ -22,6 +23,7 @@
     fetchPage,
     pageSize = 20,
     initialPage = 0,
+    prefetchThreshold = 1,
     itemSize,
     height = 400,
     overscan,
@@ -51,7 +53,7 @@
 
   function handleRangeChange(range: { startIndex: number; endIndex: number }) {
     const ps = (range.startIndex / pageSize) | 0;
-    const pe = ((range.endIndex / pageSize) | 0) + 1;
+    const pe = ((range.endIndex / pageSize) | 0) + prefetchThreshold;
     for (let p = ps; p <= pe; p++) {
       source.loadPage(p);
     }
