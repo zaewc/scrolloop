@@ -3,6 +3,7 @@ import type { CSSProperties } from "preact";
 import type { InfiniteListProps } from "../types";
 import { VirtualList } from "./VirtualList";
 import { useInfinitePages } from "../hooks/useInfinitePages";
+import "./infiniteList.css";
 
 export function InfiniteList<T>({
   fetchPage,
@@ -55,25 +56,15 @@ export function InfiniteList<T>({
     [pages, pageSize, renderItem]
   );
 
-  const centerStyle: CSSProperties = {
-    height,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-
   if (error && total === 0) {
     if (renderError)
       return <div style={{ height }}>{renderError(error, retry)}</div>;
     return (
-      <div style={centerStyle}>
-        <div style={{ textAlign: "center" }}>
-          <p>Error.</p>
-          <p style={{ color: "#666", fontSize: "0.9em" }}>{error.message}</p>
-          <button
-            onClick={retry}
-            style={{ marginTop: 8, padding: "4px 12px", cursor: "pointer" }}
-          >
+      <div class="scrolloop-state-container" style={{ height }}>
+        <div class="scrolloop-error-content">
+          <p class="scrolloop-error-message">Error.</p>
+          <p class="scrolloop-error-detail">{error.message}</p>
+          <button class="scrolloop-retry-button" onClick={retry}>
             Retry
           </button>
         </div>
@@ -84,8 +75,8 @@ export function InfiniteList<T>({
   if (total === 0 && loadingPages.size > 0) {
     if (renderLoading) return <div style={{ height }}>{renderLoading()}</div>;
     return (
-      <div style={centerStyle}>
-        <p>Loading...</p>
+      <div class="scrolloop-state-container" style={{ height }}>
+        <p class="scrolloop-state-text">Loading...</p>
       </div>
     );
   }
@@ -93,8 +84,8 @@ export function InfiniteList<T>({
   if (total === 0 && !hasMore) {
     if (renderEmpty) return <div style={{ height }}>{renderEmpty()}</div>;
     return (
-      <div style={centerStyle}>
-        <p>No data.</p>
+      <div class="scrolloop-state-container" style={{ height }}>
+        <p class="scrolloop-state-text">No data.</p>
       </div>
     );
   }

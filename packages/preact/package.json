@@ -13,7 +13,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist",
     "src"
