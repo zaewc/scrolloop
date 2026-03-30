@@ -34,13 +34,13 @@ const overscan = computed(
 );
 
 const { pages, loadingPages, total, hasMore, error, loadPage, retry } =
-  useInfinitePages<T>({
+  useInfinitePages<T>(() => ({
     fetchPage: props.fetchPage,
     pageSize: props.pageSize,
     initialPage: props.initialPage,
     onPageLoad: (page, items) => emit("pageLoad", page, items),
     onError: (err) => emit("error", err),
-  });
+  }));
 
 onMounted(() => {
   const needed = Math.ceil(props.height / props.itemSize) + overscan.value * 2;
