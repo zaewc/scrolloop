@@ -55,9 +55,13 @@
     const el = containerEl;
     if (!el) return;
 
+    let prev = el.scrollTop;
+
     function handleScroll() {
-      prevScrollTop = scrollTop;
-      scrollTop = el.scrollTop;
+      const next = el.scrollTop;
+      prevScrollTop = prev;
+      scrollTop = next;
+      prev = next;
     }
 
     el.addEventListener("scroll", handleScroll, { passive: true });
