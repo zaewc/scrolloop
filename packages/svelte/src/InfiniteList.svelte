@@ -33,7 +33,8 @@
 
   const source = createInfinitePages<T>({ fetchPage, pageSize, initialPage });
 
-  const allItems = $derived($source.allItems);
+  const total = $derived($source.total);
+  const pages = $derived($source.pages);
   const loadingPages = $derived($source.loadingPages);
   const errorState = $derived($source.error);
   const hasMore = $derived($source.hasMore);
@@ -57,7 +58,7 @@
   }
 </script>
 
-{#if errorState && !allItems.length}
+{#if errorState && total === 0}
   {#if errorSnippet}
     {@render errorSnippet(errorState, source.retry)}
   {:else}
@@ -71,7 +72,7 @@
       </div>
     </div>
   {/if}
-{:else if !allItems.length && loadingPages.size > 0}
+{:else if total === 0 && loadingPages.size > 0}
   {#if loadingSnippet}
     <div style:height="{height}px">{@render loadingSnippet()}</div>
   {:else}
@@ -79,7 +80,7 @@
       <p>Loading...</p>
     </div>
   {/if}
-{:else if !allItems.length && !hasMore}
+{:else if total === 0 && !hasMore}
   {#if emptySnippet}
     <div style:height="{height}px">{@render emptySnippet()}</div>
   {:else}
@@ -89,14 +90,14 @@
   {/if}
 {:else}
   <VirtualList
-    count={allItems.length}
+    count={total}
     {itemSize}
     {height}
     overscan={effectiveOverscan}
     onRangeChange={handleRangeChange}
   >
     {#snippet children(index, style)}
-      {@render children(index, allItems[index], style)}
+      {@render children(index, pages.get(Math.floor(index / pageSize))?.[index % pageSize], style)}
     {/snippet}
   </VirtualList>
 {/if}
