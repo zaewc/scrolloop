@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@scrolloop/core':
-        specifier: workspace:*
-        version: link:packages/core
-      '@scrolloop/shared':
-        specifier: workspace:*
-        version: link:packages/shared
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.0.0
