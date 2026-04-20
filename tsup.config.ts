@@ -10,6 +10,7 @@ export default defineConfig({
   clean: true,
   minify: true,
   external: ["react", "react-dom"],
+  noExternal: ["@scrolloop/core", "@scrolloop/shared"],
   outExtension({ format }) {
     return {
       js: format === "esm" ? ".mjs" : ".cjs",
