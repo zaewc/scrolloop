@@ -100,7 +100,7 @@
     "vue": "^3.5.26"
   },
   "dependencies": {
-    "@scrolloop/core": "^0.1.0",
-    "@scrolloop/shared": "^0.1.0"
+    "@scrolloop/core": "workspace:*",
+    "@scrolloop/shared": "workspace:*"
   }
 }
