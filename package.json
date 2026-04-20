@@ -1,6 +1,6 @@
 {
   "name": "scrolloop",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/976520/scrolloop.git"
@@ -10,6 +10,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "bundle": true,
   "packageManager": "pnpm@10.20.0",
   "main": "./packages/react/dist/index.cjs",
   "module": "./packages/react/dist/index.mjs",
@@ -97,5 +98,9 @@
     "vitepress": "^1.6.4",
     "vitest": "^2.0.0",
     "vue": "^3.5.26"
+  },
+  "dependencies": {
+    "@scrolloop/core": "workspace:*",
+    "@scrolloop/shared": "workspace:*"
   }
 }
